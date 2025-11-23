@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- Librairie d'Icônes Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Leaflet CSS for OpenStreetMap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
     
     <style>
         /* --- CSS DE BASE PARTAGÉ --- */
@@ -117,10 +119,9 @@
             transform: translateX(-50%);
         }
 
-        /* HERO section with image placeholder */
+        /* HERO section with image */
         #hero {
-            /* Image de fond: Pièces de moteur en gros plan (Placeholder de haute qualité) */
-            background: var(--primary-color) url('https://placehold.co/1600x400/004d99/ffffff?text=Performance+Diesel') no-repeat center center/cover;
+            background: linear-gradient(rgba(0, 77, 153, 0.7), rgba(0, 77, 153, 0.7)), url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80') no-repeat center center/cover;
             color: var(--white);
             min-height: 400px;
             text-align: center;
@@ -150,11 +151,11 @@
         .grid-item .service-img {
             width: 100%;
             max-width: 250px;
-            height: auto;
+            height: 200px;
             border-radius: 5px;
             margin-bottom: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            object-fit: cover; /* Assure que l'image couvre l'espace sans distorsion */
+            object-fit: cover;
         }
 
         .services-table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
@@ -173,10 +174,9 @@
             padding: 10px;
             border-radius: 8px;
         }
-        .map-embed iframe {
+        .map-embed #map {
             width: 100%;
             height: 400px;
-            border: 0;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
@@ -219,12 +219,11 @@
 </head>
 <body>
 
-    <!-- En-tête et Navigation (Partagé) -->
+    <!-- En-tête et Navigation -->
     <header>
         <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <div class="logo">Techno Diesel Service</div>
             <nav>
-                <!-- Menus de navigation (Basculent avec la langue) -->
                 <ul id="main-nav-fr">
                     <li><a href="#hero">Accueil</a></li>
                     <li><a href="#expertise">Expertise</a></li>
@@ -240,7 +239,6 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
 
-                <!-- SÉLECTEUR DE LANGUE -->
                 <select id="language-selector" onchange="switchLanguage(this.value)">
                     <option value="fr">Français</option>
                     <option value="en">English</option>
@@ -249,12 +247,10 @@
         </div>
     </header>
     
-    <!-- CONTENEUR DU CONTENU BILINGUE -->
-    
-    <!-- 1. BLOC DE CONTENU FRANÇAIS -->
+    <!-- FRANÇAIS -->
     <div id="content-fr" class="lang-content lang-fr-active">
         
-        <!-- Section Hero FR -->
+        <!-- Hero FR -->
         <section id="hero">
             <div class="container">
                 <div>
@@ -265,37 +261,34 @@
             </div>
         </section>
 
-        <!-- Section 1: Expertise FR -->
+        <!-- Expertise FR -->
         <section id="expertise">
             <div class="container">
                 <h2>Notre Expertise: Systèmes d'Injection Diesel</h2>
                 <p style="text-align: center; max-width: 800px; margin: 0 auto 40px;">
-                    **Techno Diesel Service** est votre partenaire dédié pour le diagnostic, la réparation et l'entretien de tous les composants d'injection diesel. Spécialisés exclusivement dans le cœur de votre moteur diesel, nous garantissons des performances optimales et une efficacité énergétique maximale.
+                    <strong>Techno Diesel Service</strong> est votre partenaire dédié pour le diagnostic, la réparation et l'entretien de tous les composants d'injection diesel. Spécialisés exclusivement dans le cœur de votre moteur diesel, nous garantissons des performances optimales et une efficacité énergétique maximale.
                 </p>
                 <div class="grid-3">
                     <div class="grid-item">
-                        <!-- Image de pompe d'injection Bosch de qualité pro -->
-                        <img class="service-img" src="https://placehold.co/250x150/003366/ffffff?text=Pompe+Injection" onerror="this.onerror=null;this.src='https://placehold.co/250x150/003366/ffffff?text=Pompe+Injection';" alt="Pompe d'injection diesel reconditionnée">
-                        <h3>Pompes d'Injection (Pompes)</h3>
-                        <p>Nous gérons tout, des pompes rotatives mécaniques aux dernières pompes haute pression Common Rail. Service complet incluant le démontage, le nettoyage, le remplacement des pièces et l'étalonnage précis.</p>
+                        <img class="service-img" src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=500&q=80" alt="Pompe d'injection diesel">
+                        <h3>Pompes d'Injection</h3>
+                        <p>Nous gérons tout, des pompes rotatives mécaniques aux dernières pompes haute pression Common Rail. Service complet incluant le démontage, le nettoyage et l'étalonnage précis.</p>
                     </div>
                     <div class="grid-item">
-                         <!-- Image d'injecteurs Common Rail de qualité pro -->
-                        <img class="service-img" src="https://placehold.co/250x150/003366/ffffff?text=Injecteurs+Diesel" onerror="this.onerror=null;this.src='https://placehold.co/250x150/003366/ffffff?text=Injecteurs+Diesel';" alt="Ensemble d'injecteurs Common Rail">
-                        <h3>Injecteurs Diesel (Injecteurs)</h3>
-                        <p>Réparation et entretien de tous types d'injecteurs, y compris Common Rail (CRI). Diagnostic complet, nettoyage aux ultrasons, remplacement des buses et codage électronique (si applicable).</p>
+                        <img class="service-img" src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=500&q=80" alt="Injecteurs diesel">
+                        <h3>Injecteurs Diesel</h3>
+                        <p>Réparation et entretien de tous types d'injecteurs, y compris Common Rail (CRI). Diagnostic complet, nettoyage aux ultrasons et remplacement des buses.</p>
                     </div>
                     <div class="grid-item">
-                        <!-- Image de banc d'essai ou d'équipement de diagnostic -->
-                        <img class="service-img" src="https://placehold.co/250x150/003366/ffffff?text=Banc+d'Essai+Diag" onerror="this.onerror=null;this.src='https://placehold.co/250x150/003366/ffffff?text=Banc+d'Essai+Diag';" alt="Équipement de diagnostic Common Rail">
+                        <img class="service-img" src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=500&q=80" alt="Diagnostic avancé">
                         <h3>Diagnostic Avancé</h3>
-                        <p>Utilisation d'équipements de diagnostic de pointe et de bancs d'essai certifiés pour simuler les conditions réelles du moteur, garantissant une précision absolue.</p>
+                        <p>Utilisation d'équipements de diagnostic de pointe et de bancs d'essai certifiés pour simuler les conditions réelles du moteur.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Services Détaillés FR -->
+        <!-- Services FR -->
         <section id="services">
             <div class="container">
                 <h2>Nos Services en un Coup d'Œil</h2>
@@ -304,16 +297,16 @@
                         <tr><th>Service</th><th>Description</th><th>Avantage Client</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td><i class="fa-solid fa-vial-circle-check"></i> **Tests Complets**</td><td>Test de débit, de pression et de fuite pour les pompes et les injecteurs.</td><td>Identifie les problèmes avec précision avant toute réparation coûteuse.</td></tr>
-                        <tr><td><i class="fa-solid fa-gear"></i> **Réparation de Pompes**</td><td>Étalonnage, réglage de la distribution et remplacement des composants internes.</td><td>Restaure la puissance maximale du moteur et améliore l'économie de carburant.</td></tr>
-                        <tr><td><i class="fa-solid fa-screwdriver-wrench"></i> **Entretien des Injecteurs**</td><td>Nettoyage par ultrasons, remplacement des buses et codage électronique (pour Common Rail).</td><td>Assure une atomisation optimale du carburant pour une combustion propre.</td></tr>
-                        <tr><td><i class="fa-solid fa-clipboard-check"></i> **Révision Complète**</td><td>Recommandations de service pour l'ensemble du système d'alimentation.</td><td>Prévient les pannes futures et maximise la durée de vie du système.</td></tr>
+                        <tr><td><i class="fa-solid fa-vial-circle-check"></i> Tests Complets</td><td>Test de débit, de pression et de fuite pour les pompes et les injecteurs.</td><td>Identifie les problèmes avec précision avant toute réparation coûteuse.</td></tr>
+                        <tr><td><i class="fa-solid fa-gear"></i> Réparation de Pompes</td><td>Étalonnage, réglage de la distribution et remplacement des composants internes.</td><td>Restaure la puissance maximale du moteur et améliore l'économie de carburant.</td></tr>
+                        <tr><td><i class="fa-solid fa-screwdriver-wrench"></i> Entretien des Injecteurs</td><td>Nettoyage par ultrasons, remplacement des buses et codage électronique.</td><td>Assure une atomisation optimale du carburant pour une combustion propre.</td></tr>
+                        <tr><td><i class="fa-solid fa-clipboard-check"></i> Révision Complète</td><td>Recommandations de service pour l'ensemble du système d'alimentation.</td><td>Prévient les pannes futures et maximise la durée de vie du système.</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
         
-        <!-- Section 3: Pourquoi nous choisir FR -->
+        <!-- Avantages FR -->
         <section id="pourquoi-nous">
             <div class="container">
                 <h2>Pourquoi Choisir Techno Diesel Service ?</h2>
@@ -321,23 +314,23 @@
                     <div class="grid-item">
                         <i class="icon fa-solid fa-user-gear"></i>
                         <h3>Techniciens Qualifiés</h3>
-                        <p>Notre équipe est hautement formée et constamment mise à jour sur les dernières technologies diesel (y compris Common Rail).</p>
+                        <p>Notre équipe est hautement formée et constamment mise à jour sur les dernières technologies diesel.</p>
                     </div>
                     <div class="grid-item">
                         <i class="icon fa-solid fa-certificate"></i>
                         <h3>Pièces d'Origine (OEM)</h3>
-                        <p>Nous n'utilisons que des pièces de rechange Originales ou équivalentes à l'équipement d'origine pour assurer la fiabilité.</p>
+                        <p>Nous n'utilisons que des pièces de rechange Originales ou équivalentes à l'équipement d'origine.</p>
                     </div>
                     <div class="grid-item">
                         <i class="icon fa-solid fa-handshake"></i>
                         <h3>Garantie de Qualité</h3>
-                        <p>Tous les composants réparés et entretenus sont couverts par notre garantie de service [**Insérer la durée de la garantie**].</p>
+                        <p>Tous les composants réparés et entretenus sont couverts par notre garantie de service.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 4: Contact FR -->
+        <!-- Contact FR -->
         <section id="contact">
             <div class="container">
                 <h2>Contactez-Nous</h2>
@@ -349,30 +342,17 @@
                     <p><strong>Retrouvez-nous sur Facebook :</strong> <a href="https://www.facebook.com/technodieselcongoservices1" target="_blank">Techno Diesel Congo Services</a></p>
                 </div>
 
-                <!-- EMPLACEMENT DE LA CARTE GOOGLE MAPS -->
                 <div class="map-embed">
-                    <!-- 
-                        NOTE IMPORTANTE : 
-                        Le lien court Google Maps (maps.app.goo.gl) est souvent bloqué pour l'intégration.
-                        Pour garantir l'affichage de la carte, veuillez obtenir le code d'intégration (iframe embed code) 
-                        directement depuis Google Maps (Option 'Partager' -> 'Intégrer la carte').
-                    -->
-                    <iframe 
-                        src="https://maps.app.goo.gl/QimvxTeY4LAHdssq8" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade"
-                        title="Localisation de Techno Diesel Service"
-                    ></iframe>
+                    <div id="map"></div>
                 </div>
             </div>
         </section>
     </div>
     
-    <!-- 2. BLOC DE CONTENU ANGLAIS -->
+    <!-- ANGLAIS -->
     <div id="content-en" class="lang-content">
         
-        <!-- Section Hero EN -->
+        <!-- Hero EN -->
         <section id="hero">
             <div class="container">
                 <div>
@@ -383,37 +363,34 @@
             </div>
         </section>
 
-        <!-- Section 1: Expertise EN -->
+        <!-- Expertise EN -->
         <section id="expertise">
             <div class="container">
                 <h2>Our Expertise: Diesel Injection Systems</h2>
                 <p style="text-align: center; max-width: 800px; margin: 0 auto 40px;">
-                    **Techno Diesel Service** is your dedicated partner for the diagnostics, repair, and maintenance of all diesel injection components. Specializing exclusively in the heart of your diesel engine, we ensure optimal performance and maximum fuel efficiency.
+                    <strong>Techno Diesel Service</strong> is your dedicated partner for the diagnostics, repair, and maintenance of all diesel injection components. Specializing exclusively in the heart of your diesel engine, we ensure optimal performance and maximum fuel efficiency.
                 </p>
                 <div class="grid-3">
                     <div class="grid-item">
-                         <!-- Image de pompe d'injection Bosch de qualité pro -->
-                        <img class="service-img" src="https://placehold.co/250x150/003366/ffffff?text=Injection+Pump" onerror="this.onerror=null;this.src='https://placehold.co/250x150/003366/ffffff?text=Injection+Pump';" alt="Reconditioned Diesel Injection Pump">
-                        <h3>Injection Pumps (Pompes)</h3>
-                        <p>We handle everything from mechanical rotary pumps to the latest Common Rail high-pressure pumps. Full service includes disassembly, cleaning, parts replacement, and precise calibration.</p>
+                        <img class="service-img" src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=500&q=80" alt="Diesel injection pump">
+                        <h3>Injection Pumps</h3>
+                        <p>We handle everything from mechanical rotary pumps to the latest Common Rail high-pressure pumps. Full service includes disassembly, cleaning, and precise calibration.</p>
                     </div>
                     <div class="grid-item">
-                        <!-- Image d'injecteurs Common Rail de qualité pro -->
-                        <img class="service-img" src="https://placehold.co/250x150/003366/ffffff?text=Diesel+Injectors" onerror="this.onerror=null;this.src='https://placehold.co/250x150/003366/ffffff?text=Diesel+Injectors';" alt="Set of Common Rail Injectors">
-                        <h3>Diesel Injectors (Injecteurs)</h3>
-                        <p>Repair and maintenance for all injector types, including Common Rail (CRI). Full diagnostics, ultrasonic cleaning, nozzle replacement, and electronic coding (where applicable).</p>
+                        <img class="service-img" src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=500&q=80" alt="Diesel injectors">
+                        <h3>Diesel Injectors</h3>
+                        <p>Repair and maintenance for all injector types, including Common Rail (CRI). Full diagnostics, ultrasonic cleaning, and nozzle replacement.</p>
                     </div>
                     <div class="grid-item">
-                         <!-- Image de banc d'essai ou d'équipement de diagnostic -->
-                        <img class="service-img" src="https://placehold.co/250x150/003366/ffffff?text=Test+Bench+Diag" onerror="this.onerror=null;this.src='https://placehold.co/250x150/003366/ffffff?text=Test+Bench+Diag';" alt="Common Rail Diagnostic Equipment">
+                        <img class="service-img" src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=500&q=80" alt="Advanced diagnostics">
                         <h3>Advanced Diagnostics</h3>
-                        <p>We use industry-leading diagnostic equipment and certified test benches to simulate real-world engine conditions, guaranteeing absolute precision.</p>
+                        <p>We use industry-leading diagnostic equipment and certified test benches to simulate real-world engine conditions.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Detailed Services EN -->
+        <!-- Services EN -->
         <section id="services">
             <div class="container">
                 <h2>Our Services at a Glance</h2>
@@ -423,16 +400,16 @@
                         <tr><th>Service</th><th>Description</th><th>Customer Benefit</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td><i class="fa-solid fa-vial-circle-check"></i> **Comprehensive Testing**</td><td>Full flow-rate, pressure, and leakage testing for pumps and injectors.</td><td>Accurately identifies issues before any costly repairs begin.</td></tr>
-                        <tr><td><i class="fa-solid fa-gear"></i> **Injection Pump Repair**</td><td>Calibration, timing adjustment, and replacement of internal components and seals.</td><td>Restores peak engine power and improves fuel economy.</td></tr>
-                        <tr><td><i class="fa-solid fa-screwdriver-wrench"></i> **Injector Servicing**</td><td>Ultrasonic cleaning, nozzle replacement, and electronic coding (for Common Rail).</td><td>Ensures optimal fuel atomization for clean and powerful combustion.</td></tr>
-                        <tr><td><i class="fa-solid fa-clipboard-check"></i> **Complete System Overhaul**</td><td>Service recommendations for the entire fuel line, from tank to combustion chamber.</td><td>Prevents future failures and maximizes system lifespan.</td></tr>
+                        <tr><td><i class="fa-solid fa-vial-circle-check"></i> Comprehensive Testing</td><td>Full flow-rate, pressure, and leakage testing for pumps and injectors.</td><td>Accurately identifies issues before any costly repairs begin.</td></tr>
+                        <tr><td><i class="fa-solid fa-gear"></i> Injection Pump Repair</td><td>Calibration, timing adjustment, and replacement of internal components.</td><td>Restores peak engine power and improves fuel economy.</td></tr>
+                        <tr><td><i class="fa-solid fa-screwdriver-wrench"></i> Injector Servicing</td><td>Ultrasonic cleaning, nozzle replacement, and electronic coding.</td><td>Ensures optimal fuel atomization for clean and powerful combustion.</td></tr>
+                        <tr><td><i class="fa-solid fa-clipboard-check"></i> Complete System Overhaul</td><td>Service recommendations for the entire fuel line system.</td><td>Prevents future failures and maximizes system lifespan.</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
         
-        <!-- Section 3: Why Choose Us EN -->
+        <!-- Why Us EN -->
         <section id="why-us">
             <div class="container">
                 <h2>Why Choose Techno Diesel Service?</h2>
@@ -440,23 +417,23 @@
                     <div class="grid-item">
                         <i class="icon fa-solid fa-user-gear"></i>
                         <h3>Qualified Technicians</h3>
-                        <p>Our team is highly trained and constantly updated on the latest diesel technologies (including Common Rail).</p>
+                        <p>Our team is highly trained and constantly updated on the latest diesel technologies.</p>
                     </div>
                     <div class="grid-item">
                         <i class="icon fa-solid fa-certificate"></i>
                         <h3>Original (OEM) Parts</h3>
-                        <p>We only use Original or OEM-equivalent spare parts for replacements to ensure reliability and longevity.</p>
+                        <p>We only use Original or OEM-equivalent spare parts for replacements to ensure reliability.</p>
                     </div>
                     <div class="grid-item">
                         <i class="icon fa-solid fa-handshake"></i>
                         <h3>Quality Guarantee</h3>
-                        <p>All repaired and serviced components are covered by our service guarantee [**Insert Warranty Duration**].</p>
+                        <p>All repaired and serviced components are covered by our service guarantee.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 4: Contact EN -->
+        <!-- Contact EN -->
         <section id="contact">
             <div class="container">
                 <h2>Contact Us</h2>
@@ -468,70 +445,76 @@
                     <p><strong>Find us on Facebook:</strong> <a href="https://www.facebook.com/technodieselcongoservices1" target="_blank">Techno Diesel Congo Services</a></p>
                 </div>
 
-                <!-- GOOGLE MAPS EMBED LOCATION -->
                 <div class="map-embed">
-                    <!-- 
-                        IMPORTANT NOTE: 
-                        The Google Maps short link (maps.app.goo.gl) is often blocked from being embedded.
-                        To guarantee the map displays, please retrieve the full embed code (iframe embed code) 
-                        directly from Google Maps (Use 'Share' -> 'Embed a map' option).
-                    -->
-                    <iframe 
-                        src="https://maps.app.goo.gl/QimvxTeY4LAHdssq8" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade"
-                        title="Techno Diesel Service Location"
-                    ></iframe>
+                    <div id="map"></div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Pied de page (Partagé) -->
+    <!-- Footer -->
     <footer>
         <div class="container">
-            &copy; 2024 Techno Diesel Service. Tous droits réservés / All Rights Reserved. | Conçu par iCloud Solutions <a href="http://icloud-solutions.net" target="_blank">icloud-solutions.net</a>.
+            &copy; 2024 Techno Diesel Service. All Rights Reserved. | Designed by iCloud Solutions <a href="http://icloud-solutions.net" target="_blank">icloud-solutions.net</a>.
         </div>
     </footer>
 
-    <!-- LOGIQUE JAVASCRIPT POUR LE CHANGEMENT DE LANGUE -->
+    <!-- Leaflet JS for OpenStreetMap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    
+    <!-- JAVASCRIPT -->
     <script>
+        // Initialize map with Kinshasa coordinates
+        let map;
+        const kinshasyCoords = [-4.3276, 15.3136]; // Kinshasa coordinates
+
+        function initMap() {
+            map = L.map('map').setView(kinshasyCoords, 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+            
+            // Add marker for Techno Diesel Service
+            L.marker(kinshasyCoords).addTo(map)
+                .bindPopup('<b>Techno Diesel Service</b><br>21389 Bd Lumumba<br>Kinshasa, Congo');
+        }
+
         function switchLanguage(lang) {
-            // Cible les conteneurs de langue
             const frContent = document.getElementById('content-fr');
             const enContent = document.getElementById('content-en');
-            
-            // Cible les menus de navigation
             const frNav = document.getElementById('main-nav-fr');
             const enNav = document.getElementById('main-nav-en');
 
-            // Cache tout
             frContent.classList.remove('lang-fr-active');
             enContent.style.display = 'none';
             frNav.style.display = 'none';
             enNav.style.display = 'none';
 
-            // Affiche la langue sélectionnée
             if (lang === 'fr') {
                 frContent.classList.add('lang-fr-active');
-                enContent.style.display = 'none';
                 frNav.style.display = 'inline-block';
                 document.documentElement.lang = 'fr';
             } else if (lang === 'en') {
                 enContent.style.display = 'block';
-                frContent.classList.remove('lang-fr-active');
                 enNav.style.display = 'inline-block';
                 document.documentElement.lang = 'en';
             }
+            
+            // Reinitialize map if it exists
+            setTimeout(() => {
+                if (map) {
+                    map.invalidateSize();
+                } else {
+                    initMap();
+                }
+            }, 100);
         }
-        
-        // Initialisation: S'assurer que seul le français est affiché au chargement
+
         document.addEventListener('DOMContentLoaded', () => {
-             // S'assure que le menu de navigation par défaut (fr) est visible
-             document.getElementById('main-nav-fr').style.display = 'inline-block';
-             // S'assure que le contenu anglais est caché au départ
-             document.getElementById('content-en').style.display = 'none';
+            document.getElementById('main-nav-fr').style.display = 'inline-block';
+            document.getElementById('content-en').style.display = 'none';
+            initMap();
         });
     </script>
 
