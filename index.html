@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techno Diesel Service - Spécialiste de l'Injection Diesel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS DE BASE PARTAGÉ --- */
+        :root {
+            --primary-color: #004d99;
+            --secondary-color: #ff9900;
+            --text-color: #333;
+            --light-bg: #f4f4f4;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--white);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px 0;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            background: var(--white);
+            border-bottom: 3px solid var(--primary-color);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            float: left;
+            text-transform: uppercase;
+        }
+
+        nav {
+            float: right;
+            display: flex; /* Utilisation de flex pour aligner la nav et le sélecteur */
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            margin-right: 20px;
+        }
+
+        nav ul li {
+            float: left;
+            display: inline;
+            padding: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Sélecteur de langue */
+        #language-selector {
+            padding: 5px 10px;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* --- Éléments de Contenu --- */
+        section {
+            padding: 60px 0;
+        }
+
+        section:nth-child(odd) {
+            background: var(--light-bg);
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--secondary-color);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Styles spécifiques au Hero, Tables, Grids... (similaires aux versions précédentes) */
+        #hero {
+            background: var(--primary-color);
+            color: var(--white);
+            min-height: 400px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #hero h1 { font-size: 3em; margin-bottom: 10px; text-transform: uppercase; }
+        #hero p { font-size: 1.5em; margin-bottom: 30px; font-weight: 300; }
+        .cta-button {
+            display: inline-block; background: var(--secondary-color); color: var(--white); 
+            padding: 12px 25px; text-decoration: none; font-weight: 700; border-radius: 5px; transition: background 0.3s;
+        }
+        .cta-button:hover { background: #cc7a00; }
+
+        .services-table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .services-table th, .services-table td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        .services-table th { background-color: var(--primary-color); color: var(--white); font-weight: 700; text-transform: uppercase; }
+        .services-table tr:nth-child(even) { background-color: var(--white); }
+        
+        .grid-3 { display: flex; justify-content: space-between; gap: 20px; margin-top: 30px; text-align: center; }
+        .grid-item { flex: 1; padding: 20px; background: var(--white); border: 1px solid #ddd; border-top: 5px solid var(--secondary-color); border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .grid-item h3 { color: var(--primary-color); margin-bottom: 15px; }
+
+        #contact .contact-info { text-align: center; font-size: 1.1em; }
+        #contact .contact-info p { margin-bottom: 10px; }
+        #contact .contact-info a { color: var(--primary-color); text-decoration: none; font-weight: 700; }
+        #contact .contact-info a:hover { color: var(--secondary-color); }
+
+        /* --- Language Switching CSS --- */
+        .lang-content {
+            /* Cache toutes les sections de langue par défaut */
+            display: none;
+            transition: opacity 0.5s;
+        }
+        .lang-fr-active {
+            /* La classe est ajoutée/retirée par JavaScript */
+            display: block; 
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+        footer a { color: var(--secondary-color); text-decoration: none; }
+
+        /* --- Media Queries (Responsive) --- */
+        @media (max-width: 768px) {
+            header .logo, nav { float: none; text-align: center; }
+            nav ul li { padding: 0 10px; display: block; margin-bottom: 5px; }
+            nav ul { margin-right: 0; margin-bottom: 10px; }
+            #hero h1 { font-size: 2.2em; }
+            .grid-3 { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo">Techno Diesel Service</div>
+            <nav>
+                <ul id="main-nav-fr">
+                    <li><a href="#hero">Accueil</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#pourquoi-nous">Avantages</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <ul id="main-nav-en" style="display: none;">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#why-us">Why Choose Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+
+                <select id="language-selector" onchange="switchLanguage(this.value)">
+                    <option value="fr">Français</option>
+                    <option value="en">English</option>
+                </select>
+            </nav>
+        </div>
+    </header>
+    
+    <div id="content-fr" class="lang-content lang-fr-active">
+        
+        <section id="hero">
+            <div class="container">
+                <div>
+                    <h1>Techno Diesel Service</h1>
+                    <p>Précision. Puissance. Performance.</p>
+                    <a href="#contact" class="cta-button">Restaurez la performance de votre moteur</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="expertise">
+            <div class="container">
+                <h2>Notre Expertise: Systèmes d'Injection Diesel</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px;">
+                    **Techno Diesel Service** est votre partenaire dédié pour le diagnostic, la réparation et l'entretien de tous les composants d'injection diesel. Spécialisés exclusivement dans le cœur de votre moteur diesel, nous garantissons des performances optimales et une efficacité énergétique maximale.
+                </p>
+                <div class="grid-3">
+                    <div class="grid-item"><h3>Pompes d'Injection (Pompes)</h3><p>Nous gérons tout, des pompes rotatives mécaniques aux dernières pompes haute pression Common Rail. Service complet incluant le démontage, le nettoyage, le remplacement des pièces et l'étalonnage précis.</p></div>
+                    <div class="grid-item"><h3>Injecteurs Diesel (Injecteurs)</h3><p>Réparation et entretien de tous types d'injecteurs, y compris Common Rail (CRI). Diagnostic complet, nettoyage aux ultrasons, remplacement des buses et codage électronique (si applicable).</p></div>
+                    <div class="grid-item"><h3>Diagnostic Avancé</h3><p>Utilisation d'équipements de diagnostic de pointe et de bancs d'essai certifiés pour simuler les conditions réelles du moteur, garantissant une précision absolue.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="container">
+                <h2>Nos Services en un Coup d'Œil</h2>
+                <table class="services-table">
+                    <thead>
+                        <tr><th>Service</th><th>Description</th><th>Avantage Client</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>**Tests Complets**</td><td>Test de débit, de pression et de fuite pour les pompes et les injecteurs.</td><td>Identifie les problèmes avec précision avant toute réparation coûteuse.</td></tr>
+                        <tr><td>**Réparation de Pompes**</td><td>Étalonnage, réglage de la distribution et remplacement des composants internes.</td><td>Restaure la puissance maximale du moteur et améliore l'économie de carburant.</td></tr>
+                        <tr><td>**Entretien des Injecteurs**</td><td>Nettoyage par ultrasons, remplacement des buses et codage électronique (pour Common Rail).</td><td>Assure une atomisation optimale du carburant pour une combustion propre.</td></tr>
+                        <tr><td>**Révision Complète**</td><td>Recommandations de service pour l'ensemble du système d'alimentation.</td><td>Prévient les pannes futures et maximise la durée de vie du système.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <section id="pourquoi-nous">
+            <div class="container">
+                <h2>Pourquoi Choisir Techno Diesel Service ?</h2>
+                <div class="grid-3">
+                    <div class="grid-item"><h3>Techniciens Qualifiés</h3><p>Notre équipe est hautement formée et constamment mise à jour sur les dernières technologies diesel (y compris Common Rail).</p></div>
+                    <div class="grid-item"><h3>Pièces d'Origine (OEM)</h3><p>Nous n'utilisons que des pièces de rechange Originales ou équivalentes à l'équipement d'origine pour assurer la fiabilité.</p></div>
+                    <div class="grid-item"><h3>Garantie de Qualité</h3><p>Tous les composants réparés et entretenus sont couverts par notre garantie de service [**Insérer la durée de la garantie**].</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>Contactez-Nous</h2>
+                <div class="contact-info">
+                    <p>Prêt à redonner vie à votre moteur diesel ? Contactez-nous dès aujourd'hui.</p>
+                    <p><strong>Téléphone / WhatsApp :</strong> <a href="tel:+243906930696">+243 906 930 696</a></p>
+                    <p><strong>Email :</strong> <a href="mailto:votre.email@example.com">[votre.email@example.com]</a><br><small>*(Veuillez insérer votre adresse e-mail professionnelle)*</small></p>
+                    <p><strong>Adresse :</strong> [Insérez l'adresse physique complète ici]<br><small>*(Le lien Google Maps est manquant et doit être ajouté une fois l'adresse confirmée)*</small></p>
+                    <p><strong>Retrouvez-nous sur Facebook :</strong> <a href="https://www.facebook.com/technodieselcongoservices1" target="_blank">Techno Diesel Congo Services</a></p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <div id="content-en" class="lang-content">
+        
+        <section id="hero">
+            <div class="container">
+                <div>
+                    <h1>Techno Diesel Service</h1>
+                    <p>Precision. Power. Performance.</p>
+                    <a href="#contact" class="cta-button">Restore Your Engine's Performance</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="expertise">
+            <div class="container">
+                <h2>Our Expertise: Diesel Injection Systems</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px;">
+                    **Techno Diesel Service** is your dedicated partner for the diagnostics, repair, and maintenance of all diesel injection components. Specializing exclusively in the heart of your diesel engine, we ensure optimal performance and maximum fuel efficiency.
+                </p>
+                <div class="grid-3">
+                    <div class="grid-item"><h3>Injection Pumps (Pompes)</h3><p>We handle everything from mechanical rotary pumps to the latest Common Rail high-pressure pumps. Full service includes disassembly, cleaning, parts replacement, and precise calibration.</p></div>
+                    <div class="grid-item"><h3>Diesel Injectors (Injecteurs)</h3><p>Repair and maintenance for all injector types, including Common Rail (CRI). Full diagnostics, ultrasonic cleaning, nozzle replacement, and electronic coding (where applicable).</p></div>
+                    <div class="grid-item"><h3>Advanced Diagnostics</h3><p>We use industry-leading diagnostic equipment and certified test benches to simulate real-world engine conditions, guaranteeing absolute precision.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="container">
+                <h2>Our Services at a Glance</h2>
+
+                <table class="services-table">
+                    <thead>
+                        <tr><th>Service</th><th>Description</th><th>Customer Benefit</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>**Comprehensive Testing**</td><td>Full flow-rate, pressure, and leakage testing for pumps and injectors.</td><td>Accurately identifies issues before any costly repairs begin.</td></tr>
+                        <tr><td>**Injection Pump Repair**</td><td>Calibration, timing adjustment, and replacement of internal components and seals.</td><td>Restores peak engine power and improves fuel economy.</td></tr>
+                        <tr><td>**Injector Servicing**</td><td>Ultrasonic cleaning, nozzle replacement, and electronic coding (for Common Rail).</td><td>Ensures optimal fuel atomization for clean and powerful combustion.</td></tr>
+                        <tr><td>**Complete System Overhaul**</td><td>Service recommendations for the entire fuel line, from tank to combustion chamber.</td><td>Prevents future failures and maximizes system lifespan.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <section id="why-us">
+            <div class="container">
+                <h2>Why Choose Techno Diesel Service?</h2>
+                <div class="grid-3">
+                    <div class="grid-item"><h3>Qualified Technicians</h3><p>Our team is highly trained and constantly updated on the latest diesel technologies (including Common Rail).</p></div>
+                    <div class="grid-item"><h3>Original (OEM) Parts</h3><p>We only use Original or OEM-equivalent spare parts for replacements to ensure reliability and longevity.</p></div>
+                    <div class="grid-item"><h3>Quality Guarantee</h3><p>All repaired and serviced components are covered by our service guarantee [**Insert Warranty Duration**].</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <div class="contact-info">
+                    <p>Ready to bring your diesel engine back to life? Contact us today for service or a quote.</p>
+                    <p><strong>Phone / WhatsApp:</strong> <a href="tel:+243906930696">+243 906 930 696</a></p>
+                    <p><strong>Email:</strong> <a href="mailto:your.email@example.com">[your.email@example.com]</a><br><small>*(Please insert your professional email address)*</small></p>
+                    <p><strong>Address:</strong> [Insert full physical address here]<br><small>*(The Google Maps link is missing and should be added once the address is confirmed)*</small></p>
+                    <p><strong>Find us on Facebook:</strong> <a href="https://www.facebook.com/technodieselcongoservices1" target="_blank">Techno Diesel Congo Services</a></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            &copy; 2024 Techno Diesel Service. Tous droits réservés / All Rights Reserved. | Conçu par [Votre Nom/Agence].
+        </div>
+    </footer>
+
+    <script>
+        function switchLanguage(lang) {
+            // Cible les conteneurs de langue
+            const frContent = document.getElementById('content-fr');
+            const enContent = document.getElementById('content-en');
+            
+            // Cible les menus de navigation
+            const frNav = document.getElementById('main-nav-fr');
+            const enNav = document.getElementById('main-nav-en');
+
+            // Cache tout
+            frContent.classList.remove('lang-fr-active');
+            enContent.style.display = 'none';
+            frNav.style.display = 'none';
+            enNav.style.display = 'none';
+
+            // Affiche la langue sélectionnée
+            if (lang === 'fr') {
+                frContent.classList.add('lang-fr-active');
+                enContent.style.display = 'none'; // Assurez-vous que l'anglais est caché
+                frNav.style.display = 'inline-block';
+                document.documentElement.lang = 'fr'; // Met à jour l'attribut lang
+            } else if (lang === 'en') {
+                enContent.style.display = 'block';
+                frContent.classList.remove('lang-fr-active'); // Assurez-vous que le français est caché
+                enNav.style.display = 'inline-block';
+                document.documentElement.lang = 'en'; // Met à jour l'attribut lang
+            }
+        }
+        
+        // Initialisation: S'assurer que seul le français est affiché au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+             // S'assure que le menu de navigation par défaut (fr) est visible
+             document.getElementById('main-nav-fr').style.display = 'inline-block';
+             // S'assure que le contenu anglais est caché au départ
+             document.getElementById('content-en').style.display = 'none';
+        });
+    </script>
+
+</body>
+</html>
